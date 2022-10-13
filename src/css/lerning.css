@@ -1,0 +1,60 @@
+.lerning .card-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 330px;
+}
+.lerning .card-container .lerning-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px solid #1f5d5e;
+  border-radius: 15px;
+  font-size: 22px;
+  line-height: 30px;
+  color: #1f5d5e;
+  background: #ffffff;
+  text-align: center;
+}
+.lerning .bottom-buttons {
+  padding: 10px 0;
+  position: fixed;
+  background: #1f5d5e;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.lerning .bottom-buttons .cont {
+  display: flex;
+  gap: 20px;
+}
+.lerning .bottom-buttons .cont button {
+  flex-grow: 1;
+  width: 50%;
+  line-height: 50px;
+  border-radius: 25px;
+  border: none;
+  padding: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.lerning .bottom-buttons .cont button.blue {
+  background: #519ce4;
+  color: #ffffff;
+  font-size: 19px;
+}
+.lerning .bottom-buttons .cont button.green {
+  background: #9ce451;
+  color: #1f5d5e;
+  font-size: 17px;
+}
+.lerning .bottom-buttons .cont button.red {
+  background: #ffffff;
+  color: #f00000;
+  font-size: 17px;
+}

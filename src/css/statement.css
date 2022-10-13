@@ -1,0 +1,50 @@
+.statement {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.statement .cont {
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 10px;
+  text-align: center;
+}
+.statement .cont > div {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  padding: 40px 20px 15px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.statement .cont > div.success {
+  border: 2px solid #1f5d5e;
+  background: #cce1f4;
+  color: #1f5d5e;
+}
+.statement .cont > div.error {
+  border: 2px solid #f00000;
+  background: #ffffff;
+  color: #f00000;
+}
+.statement .cont > div div.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+  cursor: pointer;
+}

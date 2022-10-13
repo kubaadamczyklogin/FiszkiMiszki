@@ -1,0 +1,56 @@
+@import "global.less";
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  .header {
+    background: @darkGreen;
+
+    .cont {
+      display: flex;
+      justify-content: space-between;
+      line-height: 60px;
+      font-size: 20px;
+      height: 60px;
+      color: @fluoGreen;
+
+      .trigger {
+        font-size: 35px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .breadcrumbs {
+    background: @slateGreen;
+    color: @darkGreen;
+    line-height: 30px;
+    font-size: 15px;
+  }
+
+  nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    border-bottom: 2px solid @darkGreen;
+    background: @green;
+    color: @darkGreen;
+
+    .cont {
+      > div {
+        border-bottom: 2px solid @darkGreen;
+        line-height: 60px;
+        font-size: 25px;
+        font-weight: bold;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

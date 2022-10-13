@@ -1,0 +1,65 @@
+@darkGreen: #1f5d5e;
+@fluoGreen: #9ce451;
+@green: #25b386;
+@slateGreen: #4cb3a0;
+@lightBlue: #cce1f4;
+@blue: #519ce4;
+@white: #ffffff;
+@red: #f00000;
+
+.overlay() {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.bottom-button() {
+  .bottom-buttons {
+    padding: 10px 0;
+    position: fixed;
+    background: @darkGreen;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .cont {
+      display: flex;
+      gap: 20px;
+
+      button {
+        flex-grow: 1;
+        width: 50%;
+        line-height: 50px;
+        border-radius: 25px;
+        border: none;
+        padding: 0;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        letter-spacing: 1px;
+
+        &.blue {
+          background: @blue;
+          color: @white;
+          font-size: 19px;
+        }
+
+        &.green {
+          background: @fluoGreen;
+          color: @darkGreen;
+          font-size: 17px;
+        }
+
+        &.red {
+          background: @white;
+          color: @red;
+          font-size: 17px;
+        }
+      }
+    }
+  }
+}

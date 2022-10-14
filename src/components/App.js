@@ -8,7 +8,7 @@ import Edit from "./Edit.js";
 
 import { useState } from "react";
 
-const user = "Kuba";
+const user = "Test";
 
 export default function App() {
   const [openMenu, setOpenMenu] = useState(false);

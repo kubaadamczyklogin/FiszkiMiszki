@@ -27,7 +27,7 @@ export default function Home(props) {
     <div className="home">
       <div className="cont">
         <h1>Fiszki - Miszki</h1>
-        <p className="greetings">Witaj {user}!</p>
+        {/* <p className="greetings">Witaj {user}!</p> */}
         <hr />
         <p>Błędy do naprawy</p>
         <ol>

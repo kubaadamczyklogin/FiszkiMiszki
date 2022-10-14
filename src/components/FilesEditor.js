@@ -12,7 +12,7 @@ export function saveDeckToFile(deck, deckName) {
         { encoding: "utf8" },
         function (err) {
           if (err) {
-            reject(err);
+            reject("Wystąpił błąd: " + err.message);
           } else {
             resolve(deckName);
           }
@@ -33,7 +33,7 @@ export function saveProgressDataToFile(user, deckName, data) {
         { encoding: "utf8" },
         function (err) {
           if (err) {
-            reject(err);
+            reject("Wystąpił błąd: " + err.message);
           } else {
             resolve("ok");
           }
@@ -48,7 +48,7 @@ export function readDeckFromFile(deckName) {
     fs.mkdir(path, function () {
       fs.readFile(`${path}/${deckName}.txt`, "utf8", function (err, data) {
         if (err) {
-          reject(err);
+          reject("Wystąpił błąd: " + err.message);
         } else {
           resolve(data);
         }
@@ -65,7 +65,7 @@ export function readProgressDataFromFile(user, deckName) {
         "utf8",
         function (err, data) {
           if (err) {
-            reject(err);
+            reject("Wystąpił błąd: " + err.message);
           } else {
             resolve(data);
           }

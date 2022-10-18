@@ -42,38 +42,43 @@ export default function Edit(props) {
     };
   }
 
-  function saveCard(id) {
-    setNewDeck((prev) => {
-      let biggestId = 0;
-      const updatedDeck = prev.map((item) => {
-        if (item.id > biggestId) biggestId = item.id;
-
-        if (id === item.id) {
-          return newCardData(id);
-        } else {
-          return item;
-        }
-      });
-
-      return [...updatedDeck, { id: ++biggestId, editable: true }];
-    });
-  }
-
   function editSavedCard(id, focusRight) {
     setNewDeck((prev) => {
-      const updatedDeck = prev.map((item) => {
-        if (id === item.id) {
+      let focusNextCard = false;
+      let biggestId = 0;
+      let savedCardData;
+      let updatedDeck = prev.map((item) => {
+        if (item.id > biggestId) biggestId = item.id;
+        if (focusNextCard) {
+          focusNextCard = false;
+          item.editable = true;
+          return item;
+        } else if (id === item.id) {
           item.editable = true;
           item.focusRight = focusRight;
           return item;
         } else if (item.editable) {
-          return newCardData(item.id);
+          if (typeof id === "undefined") {
+            focusNextCard = true;
+          }
+          savedCardData = newCardData(item.id);
+          return savedCardData;
         } else {
           return item;
         }
       });
 
-      return updatedDeck;
+      if (!savedCardData.pl && !savedCardData.pl) {
+        updatedDeck = updatedDeck.filter((item) => {
+          return item.id !== savedCardData.id;
+        });
+      }
+
+      if (focusNextCard) {
+        return [...updatedDeck, { id: ++biggestId, editable: true }];
+      } else {
+        return updatedDeck;
+      }
     });
   }
 
@@ -116,7 +121,7 @@ export default function Edit(props) {
                 ref={editableCardRef}
                 key={item.id}
                 content={item}
-                saveCard={saveCard}
+                editSavedCard={editSavedCard}
               />
             ) : (
               <UnpackedCard

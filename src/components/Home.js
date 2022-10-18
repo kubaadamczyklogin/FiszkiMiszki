@@ -3,8 +3,6 @@ export default function Home(props) {
   const errors = [
     'W "Ucz się" fiszka zasłania menu',
     'W "Edytuj" i "Dodaj" nowa fiszka jest czasamni zasłaniana przez stopkę',
-    'W "Edytuj" i "Dodaj" brak możliwości usuwania fiszki',
-    'W "Edytuj" i "Dodaj" zapisuje się pusta fiszka',
   ];
   const toDo = [
     'Wiele talii (na razie jest tylko jedna "test")',

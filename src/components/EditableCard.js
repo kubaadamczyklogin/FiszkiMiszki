@@ -1,4 +1,4 @@
-import {useRef, forwardRef, useImperativeHandle } from "react";
+import { useRef, forwardRef, useImperativeHandle } from "react";
 
 function EditableCard(props, ref) {
   const { id, pl, en, focusRight } = props.content;
@@ -22,7 +22,7 @@ function EditableCard(props, ref) {
 
   function saveCardOnEnter(e) {
     if (e.key === "Enter" || e.keyCode === 13) {
-      props.saveCard(id);
+      props.editSavedCard();
     }
   }
 

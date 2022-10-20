@@ -1,4 +1,5 @@
 import "./../css/app.css";
+import Login from "./Login.js";
 import Menu from "./Menu.js";
 import Home from "./Home.js";
 import Statement from "./Statement.js";
@@ -8,12 +9,11 @@ import Edit from "./Edit.js";
 
 import { useState } from "react";
 
-const user = "Test";
-
 export default function App() {
   const [openMenu, setOpenMenu] = useState(false);
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
+  const [user, setUser] = useState(false);
 
   function choosePage(page) {
     switch (page) {
@@ -49,22 +49,26 @@ export default function App() {
 
   if (!body) choosePage();
 
-  return (
-    <div className="App">
-      <Menu
-        user={user}
-        menuTrigger={menuTrigger}
-        choosePage={choosePage}
-        openMenu={openMenu}
-      />
-      {body}
-      {statement !== false && (
-        <Statement
-          text={statement.text}
-          status={statement.status}
-          closeStatus={closeStatus}
+  if (user) {
+    return (
+      <>
+        <Menu
+          user={user}
+          menuTrigger={menuTrigger}
+          choosePage={choosePage}
+          openMenu={openMenu}
         />
-      )}
-    </div>
-  );
+        {body}
+        {statement !== false && (
+          <Statement
+            text={statement.text}
+            status={statement.status}
+            closeStatus={closeStatus}
+          />
+        )}
+      </>
+    );
+  } else {
+    return <Login />;
+  }
 }

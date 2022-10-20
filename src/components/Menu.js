@@ -44,14 +44,14 @@ function MenuList(props) {
         >
           Edytuj talię
         </div>
-        <div
+        {/*<div
           onClick={() => {
             props.choosePage("add");
           }}
         >
           Dodaj talię
         </div>
-        {/* <div
+         <div
           onClick={() => {
             props.choosePage("set");
           }}

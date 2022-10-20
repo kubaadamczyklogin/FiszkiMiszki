@@ -1,9 +1,6 @@
 export default function Home(props) {
   const { user } = props;
-  const errors = [
-    'W "Ucz się" fiszka zasłania menu',
-    'W "Edytuj" i "Dodaj" nowa fiszka jest czasamni zasłaniana przez stopkę',
-  ];
+  const errors = ["Gdy niema w ogóle talii to nie da się edytować"];
   const toDo = [
     'Wiele talii (na razie jest tylko jedna "test")',
     "Import, export talii",

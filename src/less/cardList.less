@@ -1,50 +1,59 @@
 @import "global.less";
 
 .cardList {
-  padding: 10px 0 100px;
+  justify-content: space-between;
 
-  .card {
-    display: flex;
-    justify-content: space-between;
+  .scrolling {
+    height: 100%;
+    flex-shrink: 1;
     padding: 10px 0;
+    overflow-y: auto;
 
-    .backward,
-    .forward {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 160px;
-      height: 160px;
-      border: 1px solid @darkGreen;
-      border-radius: 15px;
-      font-size: 15px;
-      line-height: 30px;
-      color: @darkGreen;
-      text-align: center;
+    .cont {
+      .card {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
 
-      input {
-        display: inline-block;
-        width: 130px;
-        padding: 0;
-        font-size: inherit;
-        line-height: 30px;
-        font-weight: inherit;
-        text-align: inherit;
-        border: none;
-        border-radius: 0;
+        .backward,
+        .forward {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 160px;
+          height: 160px;
+          border: 1px solid @darkGreen;
+          border-radius: 15px;
+          font-size: 15px;
+          line-height: 30px;
+          color: @darkGreen;
+          text-align: center;
 
-        &:focus {
-          outline: none;
-          border-bottom: 1px solid @darkGreen;
+          input {
+            display: inline-block;
+            width: 130px;
+            padding: 0;
+            font-size: inherit;
+            line-height: 30px;
+            font-weight: inherit;
+            text-align: inherit;
+            border: none;
+            border-radius: 0;
+
+            &:focus {
+              outline: none;
+              border-bottom: 1px solid @darkGreen;
+            }
+          }
         }
-      }
-    }
 
-    &.editable {
-      .backward,
-      .forward {
-        background: @white;
+        &.editable {
+          .backward,
+          .forward {
+            background: @white;
+          }
+        }
       }
     }
   }

@@ -22,7 +22,7 @@ export default function Home(props) {
   ];
 
   return (
-    <div className="home">
+    <div className="home page">
       <div className="cont">
         <h1>Fiszki - Miszki</h1>
         {/* <p className="greetings">Witaj {user}!</p> */}

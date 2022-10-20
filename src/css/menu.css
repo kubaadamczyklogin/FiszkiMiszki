@@ -1,13 +1,3 @@
-body {
-  font-family: Verdana, sans-serif;
-  padding: 90px 0 60px;
-  box-sizing: border-box;
-  height: 100vh;
-}
-.cont {
-  width: 330px;
-  margin: 0 auto;
-}
 .menu {
   position: fixed;
   top: 0;

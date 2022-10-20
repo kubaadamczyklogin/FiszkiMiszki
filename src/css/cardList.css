@@ -1,13 +1,19 @@
 .cardList {
-  padding: 10px 0 100px;
+  justify-content: space-between;
 }
-.cardList .card {
+.cardList .scrolling {
+  height: 100%;
+  flex-shrink: 1;
+  padding: 10px 0;
+  overflow-y: auto;
+}
+.cardList .scrolling .cont .card {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
 }
-.cardList .card .backward,
-.cardList .card .forward {
+.cardList .scrolling .cont .card .backward,
+.cardList .scrolling .cont .card .forward {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,8 +27,8 @@
   color: #1f5d5e;
   text-align: center;
 }
-.cardList .card .backward input,
-.cardList .card .forward input {
+.cardList .scrolling .cont .card .backward input,
+.cardList .scrolling .cont .card .forward input {
   display: inline-block;
   width: 130px;
   padding: 0;
@@ -33,22 +39,18 @@
   border: none;
   border-radius: 0;
 }
-.cardList .card .backward input:focus,
-.cardList .card .forward input:focus {
+.cardList .scrolling .cont .card .backward input:focus,
+.cardList .scrolling .cont .card .forward input:focus {
   outline: none;
   border-bottom: 1px solid #1f5d5e;
 }
-.cardList .card.editable .backward,
-.cardList .card.editable .forward {
+.cardList .scrolling .cont .card.editable .backward,
+.cardList .scrolling .cont .card.editable .forward {
   background: #ffffff;
 }
 .cardList .bottom-buttons {
   padding: 10px 0;
-  position: fixed;
   background: #1f5d5e;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 .cardList .bottom-buttons .cont {
   display: flex;
@@ -56,15 +58,28 @@
 }
 .cardList .bottom-buttons .cont button {
   flex-grow: 1;
+  width: 50%;
   line-height: 50px;
   border-radius: 25px;
   border: none;
-  font-size: 20px;
+  padding: 0;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+  letter-spacing: 1px;
 }
 .cardList .bottom-buttons .cont button.blue {
   background: #519ce4;
   color: #ffffff;
+  font-size: 19px;
+}
+.cardList .bottom-buttons .cont button.green {
+  background: #9ce451;
+  color: #1f5d5e;
+  font-size: 17px;
+}
+.cardList .bottom-buttons .cont button.red {
+  background: #ffffff;
+  color: #f00000;
+  font-size: 17px;
 }

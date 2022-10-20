@@ -167,10 +167,10 @@ function LerningRound(props) {
   }
 
   return (
-    <div className="lerning">
+    <div className="lerning page">
       <div className="cont card-container">
         <LerningCard frontSide={frontSide} data={deck[counter]} />
-      </div>
+      </div>      
       <LerningButtons
         frontSide={frontSide}
         rotateCard={rotateCard}

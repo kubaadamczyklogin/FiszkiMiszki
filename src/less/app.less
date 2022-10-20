@@ -1,11 +1,10 @@
 @import "global.less";
 
 body {
-  height: 100vh;
   margin: 0;
+  padding: 0;
   background: @lightBlue;
   color: @darkGreen;
-  padding: 90px 0 60px;
   font-family: Verdana, sans-serif;
   box-sizing: border-box;
 }
@@ -13,4 +12,12 @@ body {
 .cont {
   width: 330px;
   margin: 0 auto;
+}
+
+.page {
+  height: 100vh;
+  padding: 60px 0 0;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
 }

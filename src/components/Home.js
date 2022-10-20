@@ -1,9 +1,6 @@
 export default function Home(props) {
   const { user } = props;
-  const errors = [
-    'W "Ucz się" fiszka zasłania menu',
-    'W "Edytuj" i "Dodaj" nowa fiszka jest czasamni zasłaniana przez stopkę',
-  ];
+  const errors = ["Gdy niema w ogóle talii to nie da się edytować"];
   const toDo = [
     'Wiele talii (na razie jest tylko jedna "test")',
     "Import, export talii",
@@ -22,7 +19,7 @@ export default function Home(props) {
   ];
 
   return (
-    <div className="home">
+    <div className="home page">
       <div className="cont">
         <h1>Fiszki - Miszki</h1>
         {/* <p className="greetings">Witaj {user}!</p> */}

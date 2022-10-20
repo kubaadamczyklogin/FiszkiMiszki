@@ -87,24 +87,26 @@ export default function Add(props) {
   }
 
   return (
-    <div className="editable cardList">
-      <div className="cont">
-        {newDeck.map((item) =>
-          item.editable ? (
-            <EditableCard
-              ref={editableCardRef}
-              key={item.id}
-              content={item}
-              saveCard={saveCard}
-            />
-          ) : (
-            <UnpackedCard
-              key={item.id}
-              content={item}
-              editSavedCard={editSavedCard}
-            />
-          )
-        )}
+    <div className="page cardList">
+      <div className="scrolling">
+        <div className="cont">
+          {newDeck.map((item) =>
+            item.editable ? (
+              <EditableCard
+                ref={editableCardRef}
+                key={item.id}
+                content={item}
+                saveCard={saveCard}
+              />
+            ) : (
+              <UnpackedCard
+                key={item.id}
+                content={item}
+                editSavedCard={editSavedCard}
+              />
+            )
+          )}
+        </div>
       </div>
       <SaveButton saveDeck={saveDeck} />
     </div>

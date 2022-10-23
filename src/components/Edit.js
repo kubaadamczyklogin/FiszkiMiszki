@@ -71,7 +71,7 @@ export default function Edit(props) {
         }
       });
 
-      if (!savedCardData.pl && !savedCardData.pl) {
+      if (!savedCardData.pl && !savedCardData.en) {
         updatedDeck = updatedDeck.filter((item) => {
           return item.id !== savedCardData.id;
         });
@@ -91,7 +91,7 @@ export default function Edit(props) {
   }
 
   async function saveDeck() {
-    const deckToSave = newDeck.map((item) => {
+    let deckToSave = newDeck.map((item) => {
       let newItem;
       if (item.editable) {
         newItem = newCardData(item.id);
@@ -101,6 +101,10 @@ export default function Edit(props) {
       delete newItem.editable;
 
       return newItem;
+    });
+
+    deckToSave = deckToSave.filter((item) => {
+      return item.pl && item.en;
     });
 
     props.saveTestDeck(deckToSave, maxTestId);

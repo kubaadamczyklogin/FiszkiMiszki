@@ -3,34 +3,39 @@ import { useState, useRef, useEffect } from "react";
 import UnpackedCard from "./UnpackedCard.js";
 import EditableCard from "./EditableCard.js";
 import SaveButton from "./SaveButton.js";
-import {
-  saveDeckToFile,
-  saveProgressDataToFile,
-  readDeckFromFile,
-} from "./FilesEditor.js";
+import readDeck from "./../db/readDeck.js";
+// import {
+//   saveDeckToFile,
+//   saveProgressDataToFile,
+//   readDeckFromFile,
+// } from "./FilesEditor.js";
 
 export default function Edit(props) {
   const [newDeck, setNewDeck] = useState(false);
   const editableCardRef = useRef();
+  const [maxTestId, setMaxTestId] = useState(props.maxTestId);
 
   useEffect(() => {
-    readDeckFromFile("test").then(
-      (resolve) => {
-        let deckFromFile = JSON.parse(resolve);
-        let newId = Math.max(...deckFromFile.map((o) => o.id)) + 1;
-        deckFromFile = [...deckFromFile, { id: newId, editable: true }];
-        // console.log("talia");
-        // console.table(deckFromFile);
-        setNewDeck(deckFromFile);
-      },
-      (error) => {
-        props.openStatement({
-          status: "error",
-          text: error,
-        });
-        props.choosePage(false);
-      }
-    );
+    //readDeck();
+    // readDeckFromFile("test").then(
+    //   (resolve) => {
+    //     let deckFromFile = JSON.parse(resolve);
+    //     let newId = Math.max(...deckFromFile.map((o) => o.id)) + 1;
+    //     deckFromFile = [...deckFromFile, { id: newId, editable: true }];
+    //     // console.log("talia");
+    //     // console.table(deckFromFile);
+    //     setNewDeck(deckFromFile);
+    //   },
+    //   (error) => {
+    //     props.openStatement({
+    //       status: "error",
+    //       text: error,
+    //     });
+    //     props.choosePage(false);
+    //   }
+    // );
+    setNewDeck([...props.testDeck, { id: maxTestId, editable: true }]);
+    setMaxTestId((prev) => ++prev);
   }, []);
 
   function newCardData(id) {
@@ -45,10 +50,8 @@ export default function Edit(props) {
   function editSavedCard(id, focusRight) {
     setNewDeck((prev) => {
       let focusNextCard = false;
-      let biggestId = 0;
       let savedCardData;
       let updatedDeck = prev.map((item) => {
-        if (item.id > biggestId) biggestId = item.id;
         if (focusNextCard) {
           focusNextCard = false;
           item.editable = true;
@@ -75,7 +78,12 @@ export default function Edit(props) {
       }
 
       if (focusNextCard) {
-        return [...updatedDeck, { id: ++biggestId, editable: true }];
+        const updatedDeckWithNew = [
+          ...updatedDeck,
+          { id: maxTestId, editable: true },
+        ];
+        setMaxTestId((prev) => ++prev);
+        return updatedDeckWithNew;
       } else {
         return updatedDeck;
       }
@@ -95,20 +103,28 @@ export default function Edit(props) {
       return newItem;
     });
 
-    saveDeckToFile(deckToSave, "test").then(
-      (deckName) => {
-        props.openStatement({
-          status: "success",
-          text: `Talia "${deckName}" została zapisana pomyślnie!`,
-        });
-        props.choosePage(false);
-        saveProgressDataToFile("kuba", "test", { lastRepeat: 0, cards: [] });
-      },
-      (error) => {
-        props.openStatement({ status: "error", text: error });
-        props.choosePage(false);
-      }
-    );
+    props.saveTestDeck(deckToSave, maxTestId);
+
+    props.openStatement({
+      status: "success",
+      text: `Talia została zapisana pomyślnie!`,
+    });
+    props.choosePage(false);
+
+    // saveDeckToFile(deckToSave, "test").then(
+    //   (deckName) => {
+    //     props.openStatement({
+    //       status: "success",
+    //       text: `Talia "${deckName}" została zapisana pomyślnie!`,
+    //     });
+    //     props.choosePage(false);
+    //     saveProgressDataToFile("kuba", "test", { lastRepeat: 0, cards: [] });
+    //   },
+    //   (error) => {
+    //     props.openStatement({ status: "error", text: error });
+    //     props.choosePage(false);
+    //   }
+    // );
   }
 
   if (newDeck) {

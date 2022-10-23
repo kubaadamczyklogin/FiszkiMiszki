@@ -26,36 +26,43 @@
       display: flex;
       gap: 20px;
 
+      .button();
       button {
         flex-grow: 1;
         width: 50%;
-        line-height: 50px;
-        border-radius: 25px;
-        border: none;
-        padding: 0;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        letter-spacing: 1px;
-
-        &.blue {
-          background: @blue;
-          color: @white;
-          font-size: 19px;
-        }
-
-        &.green {
-          background: @fluoGreen;
-          color: @darkGreen;
-          font-size: 17px;
-        }
-
-        &.red {
-          background: @white;
-          color: @red;
-          font-size: 17px;
-        }
       }
+    }
+  }
+}
+
+.button() {
+  button {
+    display: inline-block;
+    line-height: 50px;
+    border-radius: 25px;
+    border: none;
+    padding: 0 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 1px;
+
+    &.blue {
+      background: @blue;
+      color: @white;
+      font-size: 19px;
+    }
+
+    &.green {
+      background: @fluoGreen;
+      color: @darkGreen;
+      font-size: 17px;
+    }
+
+    &.red {
+      background: @white;
+      color: @red;
+      font-size: 17px;
     }
   }
 }

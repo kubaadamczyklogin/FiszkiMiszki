@@ -3,6 +3,7 @@ export default function Home(props) {
   const errors = ["Gdy niema w ogóle talii to nie da się edytować"];
   const toDo = [
     "Możliwość logowania różnych użytkowników",
+    "Walidacja podczas edycji talii",
     "Wiele talii (na razie jest tylko jedna testowa)",
     "Strona spisu talii z danymi o postępie",
     "Ładna strona główna",

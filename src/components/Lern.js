@@ -1,7 +1,7 @@
 import "./../css/lerning.css";
 import { useState, useEffect } from "react";
-import { saveProgressDataToFile } from "./FilesEditor.js";
-import { prepareDeckToLern } from "./PrepareDeck.js";
+//import { saveProgressDataToFile } from "./FilesEditor.js";
+import { prepareTestDeckToLern } from "./PrepareTestDeck.js";
 
 // statusy:
 // 0 - karta wybrana do powtórki, której jeszcze się nie nauczyliśmy
@@ -22,7 +22,12 @@ export default function Lern(props) {
   const [toRepeat, setToRepeat] = useState("");
 
   useEffect(() => {
-    prepareDeckToLern("kuba", "test").then(
+    // prepareDeckToLern("kuba", "test").then(
+    prepareTestDeckToLern(
+      props.testDeck,
+      props.testProgressData,
+      props.testToday
+    ).then(
       (resolve) => {
         // console.log("spreparowana talia");
         // console.table(resolve[0]);
@@ -34,7 +39,7 @@ export default function Lern(props) {
         } else {
           props.openStatement({
             status: "success",
-            text: "Na dziś niemasz żadnych słów w tej talii. W przyszłości będzie możliwość powtarzania jutrzejszej porcji słów",
+            text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
           });
           props.choosePage(false);
         }
@@ -50,7 +55,7 @@ export default function Lern(props) {
   }, []);
 
   function saveProgress(newToRepeat) {
-    const today = new Date().setHours(0, 0, 0, 0);
+    //const today = new Date().setHours(0, 0, 0, 0);
 
     const progressDataCardsRepeated = deckToLern.map((item) => {
       let cardData = { id: item.id };
@@ -67,7 +72,8 @@ export default function Lern(props) {
       }
       cardData.status = newStatus;
       if (newStatus !== 20) {
-        cardData.repeatDate = nextRepeatDatePerStatus[newStatus] + today;
+        cardData.repeatDate =
+          nextRepeatDatePerStatus[newStatus] + props.testToday;
       } else {
         cardData.repeatDate = 0;
       }
@@ -93,14 +99,15 @@ export default function Lern(props) {
     });
 
     const progressData = {
-      lastRepeat: today,
+      lastRepeat: props.testToday,
       cards: progressDataCards,
     };
 
     // console.log("progres do pliku");
     // console.table(progressDataCards);
     // console.log(progressData);
-    saveProgressDataToFile("kuba", "test", progressData);
+    // saveProgressDataToFile("kuba", "test", progressData);
+    props.saveTestProgressData(progressData);
   }
 
   function endRound(newToRepeat) {
@@ -170,7 +177,7 @@ function LerningRound(props) {
     <div className="lerning page">
       <div className="cont card-container">
         <LerningCard frontSide={frontSide} data={deck[counter]} />
-      </div>      
+      </div>
       <LerningButtons
         frontSide={frontSide}
         rotateCard={rotateCard}

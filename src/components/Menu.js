@@ -14,7 +14,9 @@ export default function Menu(props) {
       {/* <div className="breadcrumbs">
         <div className="cont">Breadcrumbs</div>
       </div> */}
-      {props.openMenu ? <MenuList choosePage={props.choosePage} /> : null}
+      {props.openMenu ? (
+        <MenuList choosePage={props.choosePage} nextDay={props.nextDay} />
+      ) : null}
     </div>
   );
 }
@@ -44,20 +46,14 @@ function MenuList(props) {
         >
           Edytuj talię
         </div>
-        {/*<div
+        <div
           onClick={() => {
-            props.choosePage("add");
+            props.nextDay();
+            props.choosePage();
           }}
         >
-          Dodaj talię
+          Kolejny dzień
         </div>
-         <div
-          onClick={() => {
-            props.choosePage("set");
-          }}
-        >
-          Wybierz talie
-        </div> */}
       </div>
     </nav>
   );

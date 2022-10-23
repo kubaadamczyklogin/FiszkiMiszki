@@ -10,6 +10,7 @@
   "main": "src/index.js",
   "dependencies": {
     "browserify-fs": "^1.0.0",
+    "firebase": "^9.12.1",
     "less": "4.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

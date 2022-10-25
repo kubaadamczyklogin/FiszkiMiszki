@@ -1,4 +1,4 @@
-import initDb from "./initDb.js";
+import { db } from "./initDb.js";
 import {
   collection,
   doc,
@@ -6,8 +6,6 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
-
-const db = initDb();
 
 const deckRef = collection(db, "defaultDeck");
 

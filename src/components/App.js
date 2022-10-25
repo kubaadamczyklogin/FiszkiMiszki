@@ -4,23 +4,26 @@ import Menu from "./Menu.js";
 import Home from "./Home.js";
 import Statement from "./Statement.js";
 import Lern from "./Lern.js";
-import Add from "./Add.js";
 import Edit from "./Edit.js";
 import readDeck from "./../db/readDeck.js";
-
+import { auth } from "./../db/initDb.js";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useState, useEffect } from "react";
 
 export default function App() {
   const [openMenu, setOpenMenu] = useState(false);
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
-  const [user, setUser] = useState("Test");
+  const [user, setUser] = useState(false);
   const [testDeck, setTestDeck] = useState(false);
   const [testProgressData, setTestProgressData] = useState(false);
   const [maxTestId, setMaxTestId] = useState(0);
   const [testToday, setTestToday] = useState(new Date().setHours(0, 0, 0, 0));
 
   useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
     readDeck().then(
       (deck) => {
         setTestDeck(deck);
@@ -60,7 +63,7 @@ export default function App() {
         );
         break;
       default:
-        setBody(<Home user={user} />);
+        setBody(<Home user={user.email} />);
     }
     setOpenMenu(false);
   }
@@ -103,30 +106,46 @@ export default function App() {
     setTestToday(newTestDay);
   }
 
+  function logOut() {
+    signOut(auth).then(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   if (!body) choosePage();
 
-  if (testDeck) {
-    return (
-      <>
-        <Menu
-          user={user}
-          menuTrigger={menuTrigger}
-          choosePage={choosePage}
-          openMenu={openMenu}
-          nextDay={nextDay}
-        />
-        {body}
-        {statement !== false && (
-          <Statement
-            text={statement.text}
-            status={statement.status}
-            closeStatus={closeStatus}
+  if (user) {
+    if (testDeck) {
+      return (
+        <>
+          <Menu
+            user={user.email}
+            logOut={logOut}
+            menuTrigger={menuTrigger}
+            choosePage={choosePage}
+            openMenu={openMenu}
+            nextDay={nextDay}
           />
-        )}
-      </>
-    );
+          {body}
+          {statement !== false && (
+            <Statement
+              text={statement.text}
+              status={statement.status}
+              closeStatus={closeStatus}
+            />
+          )}
+        </>
+      );
+    } else {
+      return "...loading...";
+      //return <Login />;
+    }
   } else {
-    return "...loading...";
-    //return <Login />;
+    return <Login />;
   }
 }

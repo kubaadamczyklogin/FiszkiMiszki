@@ -27,10 +27,6 @@ export default function Login(props) {
     );
   }
 
-  function enterAsGuest() {
-    console.log(enter);
-  }
-
   function newAcount() {
     createUserWithEmailAndPassword(
       auth,
@@ -70,7 +66,7 @@ export default function Login(props) {
           Wersja demonstracyjna umożliwia dodawanie fiszek i przeglądanie ich,
           ale nie zapamięta postępów w nauce ani dodanych, zmienionych fiszek
         </p>
-        <button className="blue" onClick={enterAsGuest}>
+        <button className="blue" onClick={props.enterAsGuest}>
           Demo
         </button>
 

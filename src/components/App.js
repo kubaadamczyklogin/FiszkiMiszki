@@ -15,6 +15,8 @@ export default function App() {
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
   const [user, setUser] = useState(false);
+  const [guest, setGuest] = useState(false);
+  const [name, setName] = useState("Gość");
   const [testDeck, setTestDeck] = useState(false);
   const [testProgressData, setTestProgressData] = useState(false);
   const [maxTestId, setMaxTestId] = useState(0);
@@ -23,19 +25,40 @@ export default function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser !== null) {
+        setName(currentUser.email);
+        setTestDeck(false);
+      } else {
+        readDeck().then(
+          (deck) => {
+            setTestDeck(deck);
+          },
+          (error) => {
+            openStatement({
+              status: "error",
+              text: error,
+            });
+          }
+        );
+      }
     });
-    readDeck().then(
-      (deck) => {
-        setTestDeck(deck);
+  }, []);
+
+  function logOut() {
+    setGuest(false);
+    signOut(auth).then(
+      (data) => {
+        console.log(data);
       },
       (error) => {
-        openStatement({
-          status: "error",
-          text: error,
-        });
+        console.log(error);
       }
     );
-  }, []);
+  }
+
+  function enterAsGuest() {
+    setGuest(true);
+  }
 
   function choosePage(page) {
     switch (page) {
@@ -59,11 +82,12 @@ export default function App() {
             testDeck={testDeck}
             maxTestId={maxTestId}
             saveTestDeck={saveTestDeck}
+            user={user}
           />
         );
         break;
       default:
-        setBody(<Home user={user.email} />);
+        setBody(<Home user={name} />);
     }
     setOpenMenu(false);
   }
@@ -106,30 +130,22 @@ export default function App() {
     setTestToday(newTestDay);
   }
 
-  function logOut() {
-    signOut(auth).then(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
   if (!body) choosePage();
 
-  if (user) {
-    if (testDeck) {
+  if (user === false) {
+  } else if (user === null && !guest) {
+    return <Login enterAsGuest={enterAsGuest} />;
+  } else {
+    if ((testDeck && guest) || user) {
       return (
         <>
           <Menu
-            user={user.email}
-            logOut={logOut}
+            user={name}
             menuTrigger={menuTrigger}
             choosePage={choosePage}
             openMenu={openMenu}
             nextDay={nextDay}
+            logOut={logOut}
           />
           {body}
           {statement !== false && (
@@ -145,7 +161,5 @@ export default function App() {
       return "...loading...";
       //return <Login />;
     }
-  } else {
-    return <Login />;
   }
 }

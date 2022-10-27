@@ -7,9 +7,14 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-const deckRef = collection(db, "defaultDeck");
+export default async function readDeck(id) {
+  let deckRef;
+  if (typeof id === "undefined") {
+    deckRef = collection(db, "defaultDeck");
+  } else {
+    deckRef = collection(db, "defaultDeck");
+  }
 
-export default async function readDeck() {
   let deck = [];
   const deckFromDB = await getDocs(deckRef);
   deckFromDB.forEach((card) => {

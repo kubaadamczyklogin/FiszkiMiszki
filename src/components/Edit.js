@@ -16,6 +16,13 @@ export default function Edit(props) {
   const [maxTestId, setMaxTestId] = useState(props.maxTestId);
 
   useEffect(() => {
+    if (props.testDeck) {
+      setNewDeck([...props.testDeck, { id: maxTestId, editable: true }]);
+      setMaxTestId((prev) => ++prev);
+    } else {
+      readDeck(props.user.uid);
+      setNewDeck([{ id: maxTestId, editable: true }]);
+    }
     //readDeck();
     // readDeckFromFile("test").then(
     //   (resolve) => {
@@ -34,8 +41,6 @@ export default function Edit(props) {
     //     props.choosePage(false);
     //   }
     // );
-    setNewDeck([...props.testDeck, { id: maxTestId, editable: true }]);
-    setMaxTestId((prev) => ++prev);
   }, []);
 
   function newCardData(id) {

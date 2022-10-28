@@ -7,13 +7,13 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-export default async function saveDeck(id, newDeck) {
+export default async function saveDeckToDb(id, newDeck) {
   const deckRef = collection(db, "decks", "users", id);
 
   const oldDeck = await getDocs(deckRef);
 
   oldDeck.forEach(async (card) => {
-    const del = await deleteDoc(doc(db, "decks", "users", id, card.id));
+    await deleteDoc(doc(db, "decks", "users", id, card.id));
   });
 
   newDeck.forEach(async (card) => {

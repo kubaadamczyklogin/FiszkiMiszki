@@ -3,13 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import UnpackedCard from "./UnpackedCard.js";
 import EditableCard from "./EditableCard.js";
 import SaveButton from "./SaveButton.js";
-import readDeck from "./../db/readDeck.js";
-import saveDeck from "./../db/saveDeck.js";
-// import {
-//   saveDeckToFile,
-//   saveProgressDataToFile,
-//   readDeckFromFile,
-// } from "./FilesEditor.js";
+import readDeckFromDb from "./../db/readDeck.js";
+import saveDeckToDb from "./../db/saveDeck.js";
 
 export default function Edit(props) {
   const [newDeck, setNewDeck] = useState(false);
@@ -21,7 +16,7 @@ export default function Edit(props) {
       setNewDeck([...props.testDeck, { id: maxId, editable: true }]);
       setMaxTestId((prev) => ++prev);
     } else {
-      readDeck(props.user.uid).then(
+      readDeckFromDb(props.user.uid).then(
         (deckFromDb) => {
           setNewDeck([...deckFromDb, { id: maxId, editable: true }]);
         },
@@ -113,7 +108,7 @@ export default function Edit(props) {
       });
       props.choosePage(false);
     } else {
-      saveDeck(props.user.uid, deckToSave).then(
+      saveDeckToDb(props.user.uid, deckToSave).then(
         () => {
           props.openStatement({
             status: "success",
@@ -130,21 +125,6 @@ export default function Edit(props) {
         }
       );
     }
-
-    // saveDeckToFile(deckToSave, "test").then(
-    //   (deckName) => {
-    //     props.openStatement({
-    //       status: "success",
-    //       text: `Talia "${deckName}" została zapisana pomyślnie!`,
-    //     });
-    //     props.choosePage(false);
-    //     saveProgressDataToFile("kuba", "test", { lastRepeat: 0, cards: [] });
-    //   },
-    //   (error) => {
-    //     props.openStatement({ status: "error", text: error });
-    //     props.choosePage(false);
-    //   }
-    // );
   }
 
   if (newDeck) {

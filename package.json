@@ -26,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "less": "lessc src/less/login.less src/css/login.css"
+    "less": "lessc src/less/app.less src/css/app.css"
   },
   "browserslist": [
     ">0.2%",

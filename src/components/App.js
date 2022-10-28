@@ -15,7 +15,8 @@ export default function App() {
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
   const [user, setUser] = useState(false);
-  const [guest, setGuest] = useState(false);
+  //const [guest, setGuest] = useState(false);
+  const [guest, setGuest] = useState(true);
   const [name, setName] = useState("Gość");
   const [testDeck, setTestDeck] = useState(false);
   const [testProgressData, setTestProgressData] = useState(false);
@@ -116,15 +117,15 @@ export default function App() {
   function nextDay() {
     const testDay = 86400000;
     const newTestDay = testToday + testDay;
-    const currentDate = new Date(newTestDay);
-    const month = currentDate.getUTCMonth() + 1;
-    const day = currentDate.getUTCDate();
-    const year = currentDate.getUTCFullYear();
-    const newdate = year + "/" + month + "/" + day;
+    // const currentDate = new Date(newTestDay);
+    // const month = currentDate.getUTCMonth() + 1;
+    // const day = currentDate.getUTCDate();
+    // const year = currentDate.getUTCFullYear();
+    // const newdate = year + "/" + month + "/" + day;
 
     openStatement({
       status: "success",
-      text: `Przestawiłeś aktualny dzień na ${newdate}`,
+      text: `Przestawiłeś aktualny dzień na kolejny`,
     });
 
     setTestToday(newTestDay);

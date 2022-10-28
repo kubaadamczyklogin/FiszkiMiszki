@@ -58,14 +58,14 @@ function MenuList(props) {
         >
           Kolejny dzień
         </div>
-        <div
+        {/* <div
           onClick={() => {
             props.choosePage();
             props.logOut();
           }}
         >
           Wyloguj
-        </div>
+        </div> */}
       </div>
     </nav>
   );

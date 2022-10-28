@@ -15,7 +15,11 @@ export default function Menu(props) {
         <div className="cont">Breadcrumbs</div>
       </div> */}
       {props.openMenu ? (
-        <MenuList choosePage={props.choosePage} nextDay={props.nextDay} />
+        <MenuList
+          choosePage={props.choosePage}
+          nextDay={props.nextDay}
+          logOut={props.logOut}
+        />
       ) : null}
     </div>
   );
@@ -54,6 +58,14 @@ function MenuList(props) {
         >
           Kolejny dzień
         </div>
+        {/* <div
+          onClick={() => {
+            props.choosePage();
+            props.logOut();
+          }}
+        >
+          Wyloguj
+        </div> */}
       </div>
     </nav>
   );

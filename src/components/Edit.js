@@ -2,40 +2,32 @@ import "./../css/cardList.css";
 import { useState, useRef, useEffect } from "react";
 import UnpackedCard from "./UnpackedCard.js";
 import EditableCard from "./EditableCard.js";
-import SaveButton from "./SaveButton.js";
-import readDeck from "./../db/readDeck.js";
-// import {
-//   saveDeckToFile,
-//   saveProgressDataToFile,
-//   readDeckFromFile,
-// } from "./FilesEditor.js";
+import readDeckFromDb from "./../db/readDeck.js";
+import saveDeckToDb from "./../db/saveDeck.js";
 
 export default function Edit(props) {
   const [newDeck, setNewDeck] = useState(false);
   const editableCardRef = useRef();
-  const [maxTestId, setMaxTestId] = useState(props.maxTestId);
+  const [maxId, setMaxId] = useState(props.maxTestId);
 
   useEffect(() => {
-    //readDeck();
-    // readDeckFromFile("test").then(
-    //   (resolve) => {
-    //     let deckFromFile = JSON.parse(resolve);
-    //     let newId = Math.max(...deckFromFile.map((o) => o.id)) + 1;
-    //     deckFromFile = [...deckFromFile, { id: newId, editable: true }];
-    //     // console.log("talia");
-    //     // console.table(deckFromFile);
-    //     setNewDeck(deckFromFile);
-    //   },
-    //   (error) => {
-    //     props.openStatement({
-    //       status: "error",
-    //       text: error,
-    //     });
-    //     props.choosePage(false);
-    //   }
-    // );
-    setNewDeck([...props.testDeck, { id: maxTestId, editable: true }]);
-    setMaxTestId((prev) => ++prev);
+    if (props.testDeck) {
+      setNewDeck([...props.testDeck, { id: maxId, editable: true }]);
+      setMaxId((prev) => ++prev);
+    } else {
+      readDeckFromDb(props.user.uid).then(
+        (deckFromDb) => {
+          setNewDeck([...deckFromDb, { id: maxId, editable: true }]);
+        },
+        (error) => {
+          props.openStatement({
+            status: "error",
+            text: error,
+          });
+          props.choosePage(false);
+        }
+      );
+    }
   }, []);
 
   function newCardData(id) {
@@ -77,12 +69,12 @@ export default function Edit(props) {
         });
       }
 
-      if (focusNextCard) {
+      if (focusNextCard || id === "new") {
         const updatedDeckWithNew = [
           ...updatedDeck,
-          { id: maxTestId, editable: true },
+          { id: maxId + 1, editable: true },
         ];
-        setMaxTestId((prev) => ++prev);
+        setMaxId((prev) => ++prev);
         return updatedDeckWithNew;
       } else {
         return updatedDeck;
@@ -90,7 +82,7 @@ export default function Edit(props) {
     });
   }
 
-  async function saveDeck() {
+  async function saveDeckEndLeave() {
     let deckToSave = newDeck.map((item) => {
       let newItem;
       if (item.editable) {
@@ -107,28 +99,31 @@ export default function Edit(props) {
       return item.pl && item.en;
     });
 
-    props.saveTestDeck(deckToSave, maxTestId);
-
-    props.openStatement({
-      status: "success",
-      text: `Talia została zapisana pomyślnie!`,
-    });
-    props.choosePage(false);
-
-    // saveDeckToFile(deckToSave, "test").then(
-    //   (deckName) => {
-    //     props.openStatement({
-    //       status: "success",
-    //       text: `Talia "${deckName}" została zapisana pomyślnie!`,
-    //     });
-    //     props.choosePage(false);
-    //     saveProgressDataToFile("kuba", "test", { lastRepeat: 0, cards: [] });
-    //   },
-    //   (error) => {
-    //     props.openStatement({ status: "error", text: error });
-    //     props.choosePage(false);
-    //   }
-    // );
+    if (props.testDeck) {
+      props.saveTestDeck(deckToSave, maxId);
+      props.openStatement({
+        status: "success",
+        text: `Talia została zapisana pomyślnie!`,
+      });
+      props.choosePage(false);
+    } else {
+      saveDeckToDb(props.user.uid, deckToSave).then(
+        () => {
+          props.openStatement({
+            status: "success",
+            text: `Talia została zapisana pomyślnie!`,
+          });
+          props.choosePage(false);
+        },
+        (error) => {
+          props.openStatement({
+            status: "error",
+            text: error,
+          });
+          props.choosePage(false);
+        }
+      );
+    }
   }
 
   if (newDeck) {
@@ -154,10 +149,33 @@ export default function Edit(props) {
             )}
           </div>
         </div>
-        <SaveButton saveDeck={saveDeck} />
+        <ActionButtons
+          saveDeckEndLeave={saveDeckEndLeave}
+          editSavedCard={editSavedCard}
+        />
       </div>
     );
   } else {
     return "loading...";
   }
+}
+
+function ActionButtons(props) {
+  return (
+    <div className="action-buttons bottom-buttons">
+      <div className="cont">
+        <button className="blue" onClick={props.saveDeckEndLeave}>
+          zapisz talię
+        </button>
+        <button
+          className="green"
+          onClick={() => {
+            props.editSavedCard("new");
+          }}
+        >
+          nowa karta
+        </button>
+      </div>
+    </div>
+  );
 }

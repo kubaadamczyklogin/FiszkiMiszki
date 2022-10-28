@@ -21,8 +21,8 @@ export default function Home(props) {
   return (
     <div className="home page">
       <div className="cont">
-        <h1>Fiszki - Miszki</h1>
-        {/* <p className="greetings">Witaj {user}!</p> */}
+        <h1>Fiszki</h1>
+        {/*<p className="greetings">Witaj {user}!</p> */}
         <hr />
 
         <p>

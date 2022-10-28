@@ -1,7 +1,5 @@
-import initDb from './initDb.js';
+import { db } from "./initDb.js";
 import { doc, getDoc } from "firebase/firestore";
-
-const db = initDb();
 
 export default async function testR() {
   const docRef = doc(db, "cities", "LA");

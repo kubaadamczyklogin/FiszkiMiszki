@@ -21,16 +21,13 @@ export default function Lern(props) {
   const [repeatCounter, setRepeatCounter] = useState(0);
   const [toRepeat, setToRepeat] = useState("");
 
-  useEffect(() => {
-    // prepareDeckToLern("kuba", "test").then(
+  useEffect(() => {    
     prepareTestDeckToLern(
       props.testDeck,
       props.testProgressData,
       props.testToday
     ).then(
-      (resolve) => {
-        // console.log("spreparowana talia");
-        // console.table(resolve[0]);
+      (resolve) => {       
         if (resolve[0].length !== 0) {
           setDeckToLern(resolve[0]);
           setDeckNotToLern(resolve[1]);

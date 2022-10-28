@@ -14,7 +14,7 @@ export default function Edit(props) {
   useEffect(() => {
     if (props.testDeck) {
       setNewDeck([...props.testDeck, { id: maxId, editable: true }]);
-      setMaxTestId((prev) => ++prev);
+      setMaxId((prev) => ++prev);
     } else {
       readDeckFromDb(props.user.uid).then(
         (deckFromDb) => {
@@ -70,10 +70,10 @@ export default function Edit(props) {
         });
       }
 
-      if (focusNextCard) {
+      if (focusNextCard || id === "new") {
         const updatedDeckWithNew = [
           ...updatedDeck,
-          { id: maxId, editable: true },
+          { id: maxId + 1, editable: true },
         ];
         setMaxId((prev) => ++prev);
         return updatedDeckWithNew;
@@ -150,10 +150,33 @@ export default function Edit(props) {
             )}
           </div>
         </div>
-        <SaveButton saveDeckEndLeave={saveDeckEndLeave} />
+        <ActionButtons
+          saveDeckEndLeave={saveDeckEndLeave}
+          editSavedCard={editSavedCard}
+        />
       </div>
     );
   } else {
     return "loading...";
   }
+}
+
+function ActionButtons(props) {
+  return (
+    <div className="action-buttons bottom-buttons">
+      <div className="cont">
+        <button className="blue" onClick={props.saveDeckEndLeave}>
+          zapisz talię
+        </button>
+        <button
+          className="green"
+          onClick={() => {
+            props.editSavedCard("new");
+          }}
+        >
+          nowa karta
+        </button>
+      </div>
+    </div>
+  );
 }

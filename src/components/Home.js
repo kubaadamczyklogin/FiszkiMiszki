@@ -1,4 +1,13 @@
 export default function Home(props) {
+  const errors = [
+    "Obsługa błędów logowania",
+    "Przygotowywanie talii dla gościa tak samo jak dla zalogowanego",
+    "Iwony podejście do limitów",
+    "Poprawa komunikatów powtórek",
+    "Zapis postępu mimo braku ukończenia sesji",
+    "Zabezpieczenie przed zmianą strony bez zapisu",
+  ];
+
   const toDo = [
     "Możliwość logowania różnych użytkowników",
     "Walidacja podczas edycji talii",
@@ -53,13 +62,13 @@ export default function Home(props) {
           </li>
         </ol>
 
-        {/*  <p>Błędy do naprawy</p>
+        <p>Błędy do naprawy</p>
         <ol>
           {errors.map((item, index) => {
             return <li key={index}>{item}</li>;
           })}
         </ol>
-        <hr />*/}
+        <hr />
         <h2>Planowane zmiany:</h2>
         <ol>
           {toDo.map((item, index) => {

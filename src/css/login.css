@@ -14,19 +14,40 @@
   text-transform: uppercase;
   cursor: pointer;
   letter-spacing: 1px;
+  font-size: 17px;
+  white-space: nowrap;
 }
 .login button.blue {
   background: #519ce4;
   color: #ffffff;
-  font-size: 19px;
 }
 .login button.green {
   background: #9ce451;
   color: #1f5d5e;
-  font-size: 17px;
 }
 .login button.red {
   background: #ffffff;
   color: #f00000;
-  font-size: 17px;
+}
+.login button {
+  margin-top: 10px;
+}
+.login h2 {
+  margin-top: 20px;
+  border-top: 1px solid #1f5d5e;
+  padding-top: 20px;
+}
+.login p {
+  margin-bottom: 10px;
+}
+.login input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border: 1px solid #519ce4;
+  border-radius: 25px;
+  line-height: 20px;
+  font-size: 16px;
 }

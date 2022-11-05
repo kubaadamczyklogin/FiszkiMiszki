@@ -14,7 +14,7 @@ body {
   height: 100vh;
 }
 .page {
-  height: 100%;
+  min-height: 100%;
   padding: 60px 0 0;
   display: flex;
   box-sizing: border-box;

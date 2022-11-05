@@ -34,16 +34,12 @@ export default function Login(props) {
         <h1>Fiszki</h1>
         <h2>Zaloguj się</h2>
         <input type="text" placeholder="email" ref={loginEmail} />
-        <br />
         <input type="password" placeholder="hasło" ref={loginPassword} />
-        <br />
         <button className="blue" onClick={logIn}>
           Zaloguj
         </button>
-
         <p>
-          W celu przypomnienia lub potrzeby zmiany hasła, skontaktuj się z
-          adminem:{" "}
+          W celu przypomnienia lub zmiany hasła, skontaktuj się z adminem:{" "}
           <a href="mailto:poczta@kubaadamczyk.pl">poczta@kubaadamczyk.pl</a>
         </p>
 
@@ -58,9 +54,7 @@ export default function Login(props) {
 
         <h2>Załóż konto</h2>
         <input type="text" placeholder="email" ref={registerEmail} />
-        <br />
         <input type="password" placeholder="hasło" ref={registerPassword} />
-        <br />
         <button className="blue" onClick={newAcount}>
           Nowe konto
         </button>

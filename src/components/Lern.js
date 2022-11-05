@@ -1,7 +1,8 @@
 import "./../css/lerning.css";
 import { useState, useEffect } from "react";
-//import { saveProgressDataToFile } from "./FilesEditor.js";
 import { prepareTestDeckToLern } from "./PrepareTestDeck.js";
+import { prepareDeckToLern } from "./PrepareDeck.js";
+import saveProgressDataFromDb from "./../db/saveProgressData.js";
 
 // statusy:
 // 0 - karta wybrana do powtórki, której jeszcze się nie nauczyliśmy
@@ -21,34 +22,60 @@ export default function Lern(props) {
   const [repeatCounter, setRepeatCounter] = useState(0);
   const [toRepeat, setToRepeat] = useState("");
 
-  useEffect(() => {    
-    prepareTestDeckToLern(
-      props.testDeck,
-      props.testProgressData,
-      props.testToday
-    ).then(
-      (resolve) => {       
-        if (resolve[0].length !== 0) {
-          setDeckToLern(resolve[0]);
-          setDeckNotToLern(resolve[1]);
-          setRepeatCounter(0);
-          setToRepeat([]);
-        } else {
+  useEffect(() => {
+    if (props.guest) {
+      prepareTestDeckToLern(
+        props.testDeck,
+        props.testProgressData,
+        props.testToday
+      ).then(
+        (resolve) => {
+          if (resolve[0].length !== 0) {
+            setDeckToLern(resolve[0]);
+            setDeckNotToLern(resolve[1]);
+            setRepeatCounter(0);
+            setToRepeat([]);
+          } else {
+            props.openStatement({
+              status: "success",
+              text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
+            });
+            props.choosePage(false);
+          }
+        },
+        (error) => {
           props.openStatement({
-            status: "success",
-            text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
+            status: "error",
+            text: error,
           });
           props.choosePage(false);
         }
-      },
-      (error) => {
-        props.openStatement({
-          status: "error",
-          text: error,
-        });
-        props.choosePage(false);
-      }
-    );
+      );
+    } else {
+      prepareDeckToLern(props.user, props.testToday).then(
+        (resolve) => {
+          if (resolve[0].length !== 0) {
+            setDeckToLern(resolve[0]);
+            setDeckNotToLern(resolve[1]);
+            setRepeatCounter(0);
+            setToRepeat([]);
+          } else {
+            props.openStatement({
+              status: "success",
+              text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
+            });
+            props.choosePage(false);
+          }
+        },
+        (error) => {
+          props.openStatement({
+            status: "error",
+            text: error,
+          });
+          props.choosePage(false);
+        }
+      );
+    }
   }, []);
 
   function saveProgress(newToRepeat) {
@@ -104,7 +131,11 @@ export default function Lern(props) {
     // console.table(progressDataCards);
     // console.log(progressData);
     // saveProgressDataToFile("kuba", "test", progressData);
-    props.saveTestProgressData(progressData);
+    if (props.guest) {
+      props.saveTestProgressData(progressData);
+    } else {
+      saveProgressDataFromDb(props.user.uid, progressData);
+    }
   }
 
   function endRound(newToRepeat) {

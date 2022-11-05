@@ -21,16 +21,8 @@ export async function prepareTestDeckToLern(
 
   let deck,
     progressData,
-    progressCards,
     deckToLern = [],
     deckNotToLearn = [];
-
-  //let today = new Date().setHours(0, 0, 0, 0);
-
-  // deck = await readDeckFromFile(name);
-  // deck = JSON.parse(deck);
-  // progressData = await readProgressDataFromFile(user, name);
-  // progressData = JSON.parse(progressData);
 
   let today = testToday;
 

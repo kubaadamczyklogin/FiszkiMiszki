@@ -15,8 +15,7 @@ export default function App() {
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
   const [user, setUser] = useState(false);
-  //const [guest, setGuest] = useState(false);
-  const [guest, setGuest] = useState(true);
+  const [guest, setGuest] = useState(false);
   const [name, setName] = useState("Gość");
   const [testDeck, setTestDeck] = useState(false);
   const [testProgressData, setTestProgressData] = useState(false);
@@ -72,6 +71,8 @@ export default function App() {
             testProgressData={testProgressData}
             testToday={testToday}
             saveTestProgressData={saveTestProgressData}
+            guest={guest}
+            user={user}
           />
         );
         break;

@@ -1,6 +1,4 @@
 export default function Home(props) {
-  const { user } = props;
-  const errors = ["Gdy niema w ogóle talii to nie da się edytować"];
   const toDo = [
     "Możliwość logowania różnych użytkowników",
     "Walidacja podczas edycji talii",
@@ -22,7 +20,7 @@ export default function Home(props) {
     <div className="home page">
       <div className="cont">
         <h1>Fiszki</h1>
-        {/*<p className="greetings">Witaj {user}!</p> */}
+
         <hr />
 
         <p>

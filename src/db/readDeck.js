@@ -1,10 +1,7 @@
 import { db } from "./initDb.js";
 import {
-  collection,
-  doc,
-  setDoc,
-  getDocs,
-  deleteDoc,
+  collection,  
+  getDocs 
 } from "firebase/firestore";
 
 export default async function readDeckFromDb(id) {
@@ -28,29 +25,3 @@ export default async function readDeckFromDb(id) {
 
   return deck;
 }
-
-//  await setDoc(doc(deckRef), {
-//     en: "water",
-//     pl: "woda",
-//   });
-//   await setDoc(doc(deckRef), {
-//     en: "ice",
-//     pl: "lód",
-//   });
-
-// await setDoc(doc(deckRef2), {
-//   en: "bear",
-//   pl: "niedźwiedź",
-// });
-// await setDoc(doc(deckRef), {
-//   en: "sneak",
-//   pl: "wąż",
-// });
-// await setDoc(doc(deckRef), {
-//   en: "bat",
-//   pl: "nietoperz",
-// });
-
-//   all.forEach((avv) => {
-//     deleteDoc(doc(db, "defaultDeck", avv));
-//   });

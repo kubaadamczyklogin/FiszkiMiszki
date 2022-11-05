@@ -1,4 +1,5 @@
-import { readDeckFromFile, readProgressDataFromFile } from "./FilesEditor.js";
+import readDeckFromDb from "./../db/readDeck.js";
+import readProgressDataFromDb from "./../db/readProgressData.js";
 
 // statusy:
 // 0 - karta wybrana do powtórki, której jeszcze się nie nauczyliśmy
@@ -11,38 +12,20 @@ import { readDeckFromFile, readProgressDataFromFile } from "./FilesEditor.js";
 
 const day = 86400000;
 
-export async function prepareDeckToLern(user, name) {
+export async function prepareDeckToLern(user, testToday) {
   const cardsLimit = 50;
   const newCardsLimit = 10;
-
   let deck,
     progressData,
-    progressCards,
     deckToLern = [],
     deckNotToLearn = [];
 
-  let today = new Date().setHours(0, 0, 0, 0);
+  let today = testToday;
 
-  deck = await readDeckFromFile(name);
-  deck = JSON.parse(deck);
-  progressData = await readProgressDataFromFile(user, name);
-  progressData = JSON.parse(progressData);
+  deck = await readDeckFromDb(user.uid);
+  progressData = await readProgressDataFromDb(user.uid);
 
-  // do testowania
-  //   progressData = {
-  //     lastRepeat: today - day,
-  //     cards: [
-  //       { id: 0, repeatDate: today, status: 4 },
-  //       { id: 1, repeatDate: today, status: 3 },
-  //       { id: 2, repeatDate: today, status: 2 },
-  //       { id: 3, repeatDate: today, status: 1 },
-  //       { id: 4, repeatDate: today, status: 0 },
-  //     ],
-  //   };
-
-  //   console.log("progres z serwera");
-  //   console.log(progressData);
-  //   console.table(progressData.cards);
+  console.log(progressData.cards);
 
   if (progressData.lastRepeat < today) {
     // synchronizacja danych z talią

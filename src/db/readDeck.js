@@ -1,8 +1,5 @@
 import { db } from "./initDb.js";
-import {
-  collection,  
-  getDocs 
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 export default async function readDeckFromDb(id) {
   let deckRef;
@@ -21,7 +18,7 @@ export default async function readDeckFromDb(id) {
       pl: card.data().pl,
       en: card.data().en,
     });
-  });
+  }); 
 
   return deck;
 }

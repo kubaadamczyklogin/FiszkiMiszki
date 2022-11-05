@@ -54,17 +54,17 @@ export default function Lern(props) {
     } else {
       prepareDeckToLern(props.user, props.testToday).then(
         (resolve) => {
-          if (resolve[0].length !== 0) {
+          if (resolve[2]) {
+            props.openStatement({
+              status: "success",
+              text: resolve[2],
+            });
+            props.choosePage(false);
+          } else {
             setDeckToLern(resolve[0]);
             setDeckNotToLern(resolve[1]);
             setRepeatCounter(0);
             setToRepeat([]);
-          } else {
-            props.openStatement({
-              status: "success",
-              text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
-            });
-            props.choosePage(false);
           }
         },
         (error) => {
@@ -126,11 +126,7 @@ export default function Lern(props) {
       lastRepeat: props.testToday,
       cards: progressDataCards,
     };
-
-    // console.log("progres do pliku");
-    // console.table(progressDataCards);
-    // console.log(progressData);
-    // saveProgressDataToFile("kuba", "test", progressData);
+ 
     if (props.guest) {
       props.saveTestProgressData(progressData);
     } else {

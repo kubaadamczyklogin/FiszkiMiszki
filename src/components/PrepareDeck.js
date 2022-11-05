@@ -18,16 +18,25 @@ export async function prepareDeckToLern(user, testToday) {
   let deck,
     progressData,
     deckToLern = [],
-    deckNotToLearn = [];
+    deckNotToLearn = [],
+    exception = false;
 
   let today = testToday;
 
   deck = await readDeckFromDb(user.uid);
   progressData = await readProgressDataFromDb(user.uid);
 
-  console.log(progressData.cards);
+  if (deck.length === 0) {
+    exception =
+      'Talia jest pusta. Dodaj karty wybierając w menu "edytuj talie"';
 
-  if (progressData.lastRepeat < today) {
+    return [deckToLern, deckNotToLearn, exception];
+  } else if (progressData.lastRepeat >= today) {
+    exception =
+      'Dziś już się uczyłeś, zajrzyj tu jutro. Możesz też w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję';
+
+    return [deckToLern, deckNotToLearn, exception];
+  } else {
     // synchronizacja danych z talią
     deck = deck.map((deckItem) => {
       const progressDataItem = progressData.cards.find(
@@ -90,10 +99,12 @@ export async function prepareDeckToLern(user, testToday) {
     }
 
     deckToLern = shufflingDeck;
-  } else {
-    deckToLern = [];
-    deckNotToLearn = [];
   }
 
-  return [deckToLern, deckNotToLearn];
+  if (deckToLern.length === 0) {
+    exception =
+      'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję';
+  }
+
+  return [deckToLern, deckNotToLearn, exception];
 }

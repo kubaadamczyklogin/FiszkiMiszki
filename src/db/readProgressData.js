@@ -23,7 +23,10 @@ export default async function readProgressDataFromDb(id) {
   );
 
   const progressDataFromDb = await getDoc(progressDataRef);
-  resultObject.lastRepeat = progressDataFromDb.data().lastRepeat;
+
+  if (progressDataFromDb.exists()) {
+    resultObject.lastRepeat = progressDataFromDb.data().lastRepeat;
+  }
 
   const progressDataCardsFromDb = await getDocs(progressDataCardsRef);
   progressDataCardsFromDb.forEach((card) => {

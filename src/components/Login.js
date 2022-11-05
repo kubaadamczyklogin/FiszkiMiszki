@@ -17,13 +17,6 @@ export default function Login(props) {
       auth,
       loginEmail.current.value,
       loginPassword.current.value
-    ).then(
-      (currentUser) => {
-        console.log(currentUser);
-      },
-      (error) => {
-        console.log(error);
-      }
     );
   }
 
@@ -32,13 +25,6 @@ export default function Login(props) {
       auth,
       registerEmail.current.value,
       registerPassword.current.value
-    ).then(
-      (currentUser) => {
-        console.log(currentUser);
-      },
-      (error) => {
-        console.log(error);
-      }
     );
   }
 

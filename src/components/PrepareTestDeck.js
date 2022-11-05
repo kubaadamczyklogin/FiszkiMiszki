@@ -1,5 +1,3 @@
-import { readDeckFromFile, readProgressDataFromFile } from "./FilesEditor.js";
-
 // statusy:
 // 0 - karta wybrana do powtórki, której jeszcze się nie nauczyliśmy
 // 1 - karta do powtórki jutro
@@ -43,10 +41,6 @@ export async function prepareTestDeckToLern(
   //       { id: 4, repeatDate: today, status: 0 },
   //     ],
   //   };
-
-  //   console.log("progres z serwera");
-  //   console.log(progressData);
-  //   console.table(progressData.cards);
 
   if (progressData.lastRepeat < today) {
     // synchronizacja danych z talią
@@ -115,9 +109,6 @@ export async function prepareTestDeckToLern(
     deckToLern = [];
     deckNotToLearn = [];
   }
-
-  // console.log(deckToLern);
-  // console.log(deckNotToLearn);
 
   return [deckToLern, deckNotToLearn];
 }

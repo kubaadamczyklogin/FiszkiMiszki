@@ -46,14 +46,8 @@ export default function App() {
 
   function logOut() {
     setGuest(false);
-    signOut(auth).then(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    setTestToday(new Date().setHours(0, 0, 0, 0));
+    signOut(auth);    
   }
 
   function enterAsGuest() {

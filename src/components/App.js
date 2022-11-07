@@ -15,8 +15,7 @@ export default function App() {
   const [body, setBody] = useState(false);
   const [statement, setStatement] = useState(false);
   const [user, setUser] = useState(false);
-  //const [guest, setGuest] = useState(false);
-  const [guest, setGuest] = useState(true);
+  const [guest, setGuest] = useState(false);
   const [name, setName] = useState("Gość");
   const [testDeck, setTestDeck] = useState(false);
   const [testProgressData, setTestProgressData] = useState(false);
@@ -29,36 +28,31 @@ export default function App() {
       if (currentUser !== null) {
         setName(currentUser.email);
         setTestDeck(false);
-      } else {
-        readDeck().then(
-          (deck) => {
-            setTestDeck(deck);
-          },
-          (error) => {
-            openStatement({
-              status: "error",
-              text: error,
-            });
-          }
-        );
       }
     });
   }, []);
 
   function logOut() {
     setGuest(false);
-    signOut(auth).then(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    setTestToday(new Date().setHours(0, 0, 0, 0));
+    signOut(auth);
   }
 
   function enterAsGuest() {
     setGuest(true);
+    setName("Gość");
+    setTestProgressData(false);
+    readDeck().then(
+      (deck) => {
+        setTestDeck(deck);
+      },
+      (error) => {
+        openStatement({
+          status: "error",
+          text: error,
+        });
+      }
+    );
   }
 
   function choosePage(page) {
@@ -72,6 +66,8 @@ export default function App() {
             testProgressData={testProgressData}
             testToday={testToday}
             saveTestProgressData={saveTestProgressData}
+            guest={guest}
+            user={user}
           />
         );
         break;
@@ -88,7 +84,7 @@ export default function App() {
         );
         break;
       default:
-        setBody(<Home user={name} />);
+        setBody(<Home guest={guest} />);
     }
     setOpenMenu(false);
   }
@@ -135,13 +131,25 @@ export default function App() {
 
   if (user === false) {
   } else if (user === null && !guest) {
-    return <Login enterAsGuest={enterAsGuest} />;
+    return (
+      <>
+        <Login enterAsGuest={enterAsGuest} openStatement={openStatement} />
+        {statement !== false && (
+          <Statement
+            text={statement.text}
+            status={statement.status}
+            closeStatus={closeStatus}
+          />
+        )}
+      </>
+    );
   } else {
     if ((testDeck && guest) || user) {
       return (
         <>
           <Menu
             user={name}
+            guest={guest}
             menuTrigger={menuTrigger}
             choosePage={choosePage}
             openMenu={openMenu}

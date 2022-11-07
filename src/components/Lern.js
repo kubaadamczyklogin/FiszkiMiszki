@@ -1,7 +1,7 @@
 import "./../css/lerning.css";
 import { useState, useEffect } from "react";
-//import { saveProgressDataToFile } from "./FilesEditor.js";
-import { prepareTestDeckToLern } from "./PrepareTestDeck.js";
+import { prepareDeckToLern } from "./PrepareDeck.js";
+import saveProgressDataFromDb from "./../db/saveProgressData.js";
 
 // statusy:
 // 0 - karta wybrana do powtórki, której jeszcze się nie nauczyliśmy
@@ -20,25 +20,29 @@ export default function Lern(props) {
   const [deckNotToLern, setDeckNotToLern] = useState(false);
   const [repeatCounter, setRepeatCounter] = useState(0);
   const [toRepeat, setToRepeat] = useState("");
+  const [deckLenght, setDeckLenght] = useState(false);
 
-  useEffect(() => {    
-    prepareTestDeckToLern(
+  useEffect(() => {
+    prepareDeckToLern(
+      props.guest,
+      props.user,
+      props.testToday,
       props.testDeck,
-      props.testProgressData,
-      props.testToday
+      props.testProgressData
     ).then(
-      (resolve) => {       
-        if (resolve[0].length !== 0) {
+      (resolve) => {
+        if (resolve[2]) {
+          props.openStatement({
+            status: "success",
+            text: resolve[2],
+          });
+          props.choosePage(false);
+        } else {
           setDeckToLern(resolve[0]);
           setDeckNotToLern(resolve[1]);
           setRepeatCounter(0);
           setToRepeat([]);
-        } else {
-          props.openStatement({
-            status: "success",
-            text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
-          });
-          props.choosePage(false);
+          setDeckLenght(resolve[3]);
         }
       },
       (error) => {
@@ -95,16 +99,25 @@ export default function Lern(props) {
       return a.id - b.id;
     });
 
+    deckLenght;
+
+    const newlastRepeatData = {
+      newCards: deckLenght.newCards,
+      allCards: deckLenght.allCards,
+      date: props.testToday,
+    };
+
     const progressData = {
       lastRepeat: props.testToday,
+      lastRepeatData: newlastRepeatData,
       cards: progressDataCards,
     };
 
-    // console.log("progres do pliku");
-    // console.table(progressDataCards);
-    // console.log(progressData);
-    // saveProgressDataToFile("kuba", "test", progressData);
-    props.saveTestProgressData(progressData);
+    if (props.guest) {
+      props.saveTestProgressData(progressData);
+    } else {
+      saveProgressDataFromDb(props.user.uid, progressData);
+    }
   }
 
   function endRound(newToRepeat) {

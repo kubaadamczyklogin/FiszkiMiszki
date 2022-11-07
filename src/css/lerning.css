@@ -1,5 +1,6 @@
 .lerning {
   justify-content: space-between;
+  height: 100%;
 }
 .lerning .card-container {
   display: flex;
@@ -31,29 +32,31 @@
   gap: 20px;
 }
 .lerning .bottom-buttons .cont button {
-  flex-grow: 1;
-  width: 50%;
+  display: inline-block;
   line-height: 50px;
   border-radius: 25px;
   border: none;
-  padding: 0;
+  padding: 0 20px;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   letter-spacing: 1px;
+  font-size: 17px;
+  white-space: nowrap;
 }
 .lerning .bottom-buttons .cont button.blue {
   background: #519ce4;
   color: #ffffff;
-  font-size: 19px;
 }
 .lerning .bottom-buttons .cont button.green {
   background: #9ce451;
   color: #1f5d5e;
-  font-size: 17px;
 }
 .lerning .bottom-buttons .cont button.red {
   background: #ffffff;
   color: #f00000;
-  font-size: 17px;
+}
+.lerning .bottom-buttons .cont button {
+  flex-grow: 1;
+  width: 50%;
 }

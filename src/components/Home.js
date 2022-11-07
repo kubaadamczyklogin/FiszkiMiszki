@@ -33,9 +33,7 @@ export default function Home(props) {
           Obecnie pracuję nad:
           <br />
           Poprawieniem ograniczeń nauki jednego dnia - by można było kilka razy
-          w ciągu dnia skożystać z aplikacji na jednym koncie.
-          <br />
-          Poprawa komunikatów na stronie "Ucz się".
+          w ciągu dnia skożystać z aplikacji.
         </p>
 
         <hr />

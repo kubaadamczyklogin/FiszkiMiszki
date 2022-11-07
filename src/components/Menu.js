@@ -19,6 +19,7 @@ export default function Menu(props) {
           choosePage={props.choosePage}
           nextDay={props.nextDay}
           logOut={props.logOut}
+          guest={props.guest}
         />
       ) : null}
     </div>
@@ -50,14 +51,16 @@ function MenuList(props) {
         >
           Edytuj talię
         </div>
-        <div
-          onClick={() => {
-            props.nextDay();
-            props.choosePage();
-          }}
-        >
-          Kolejny dzień
-        </div>
+        {props.guest && (
+          <div
+            onClick={() => {
+              props.nextDay();
+              props.choosePage();
+            }}
+          >
+            Kolejny dzień
+          </div>
+        )}
         <div
           onClick={() => {
             props.choosePage();

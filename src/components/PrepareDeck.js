@@ -12,19 +12,36 @@ import readProgressDataFromDb from "./../db/readProgressData.js";
 
 const day = 86400000;
 
-export async function prepareDeckToLern(user, testToday) {
+export async function prepareDeckToLern(
+  guest,
+  user,
+  testToday,
+  testDeck,
+  testProgressData
+) {
   const cardsLimit = 50;
   const newCardsLimit = 10;
   let deck,
     progressData,
     deckToLern = [],
     deckNotToLearn = [],
+    deckLength = [],
     exception = false;
 
   let today = testToday;
 
-  deck = await readDeckFromDb(user.uid);
-  progressData = await readProgressDataFromDb(user.uid);
+  if (guest) {
+    deck = testDeck;
+
+    progressData = testProgressData
+      ? testProgressData
+      : { lastRepeat: today - day, cards: [] };
+  } else {
+    deck = await readDeckFromDb(user.uid);
+    progressData = await readProgressDataFromDb(user.uid);
+
+    console.log(progressData.lastRepeatData);
+  }
 
   if (deck.length === 0) {
     exception =
@@ -32,8 +49,7 @@ export async function prepareDeckToLern(user, testToday) {
 
     return [deckToLern, deckNotToLearn, exception];
   } else if (progressData.lastRepeat >= today) {
-    exception =
-      'Dziś już się uczyłeś, zajrzyj tu jutro. Możesz też w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję';
+    exception = "Dziś już się uczyłeś, zajrzyj tu jutro.";
 
     return [deckToLern, deckNotToLearn, exception];
   } else {
@@ -99,12 +115,15 @@ export async function prepareDeckToLern(user, testToday) {
     }
 
     deckToLern = shufflingDeck;
+    deckLength = {
+      newCards: newCardsQuantity,
+      allCards: cardsQuantity,
+    };
   }
 
   if (deckToLern.length === 0) {
-    exception =
-      'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję';
+    exception = "Na dziś niemasz żadnych słów w tej talii.";
   }
 
-  return [deckToLern, deckNotToLearn, exception];
+  return [deckToLern, deckNotToLearn, exception, deckLength];
 }

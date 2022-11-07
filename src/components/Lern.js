@@ -1,6 +1,5 @@
 import "./../css/lerning.css";
 import { useState, useEffect } from "react";
-import { prepareTestDeckToLern } from "./PrepareTestDeck.js";
 import { prepareDeckToLern } from "./PrepareDeck.js";
 import saveProgressDataFromDb from "./../db/saveProgressData.js";
 
@@ -21,61 +20,39 @@ export default function Lern(props) {
   const [deckNotToLern, setDeckNotToLern] = useState(false);
   const [repeatCounter, setRepeatCounter] = useState(0);
   const [toRepeat, setToRepeat] = useState("");
+  const [deckLenght, setDeckLenght] = useState(false);
 
   useEffect(() => {
-    if (props.guest) {
-      prepareTestDeckToLern(
-        props.testDeck,
-        props.testProgressData,
-        props.testToday
-      ).then(
-        (resolve) => {
-          if (resolve[0].length !== 0) {
-            setDeckToLern(resolve[0]);
-            setDeckNotToLern(resolve[1]);
-            setRepeatCounter(0);
-            setToRepeat([]);
-          } else {
-            props.openStatement({
-              status: "success",
-              text: 'Na dziś niemasz żadnych słów w tej talii. Możesz w menu kliknąć "kolejny dzień" by zasymulawać kolejną sesję',
-            });
-            props.choosePage(false);
-          }
-        },
-        (error) => {
+    prepareDeckToLern(
+      props.guest,
+      props.user,
+      props.testToday,
+      props.testDeck,
+      props.testProgressData
+    ).then(
+      (resolve) => {
+        if (resolve[2]) {
           props.openStatement({
-            status: "error",
-            text: error,
+            status: "success",
+            text: resolve[2],
           });
           props.choosePage(false);
+        } else {
+          setDeckToLern(resolve[0]);
+          setDeckNotToLern(resolve[1]);
+          setRepeatCounter(0);
+          setToRepeat([]);
+          setDeckLenght(resolve[3]);
         }
-      );
-    } else {
-      prepareDeckToLern(props.user, props.testToday).then(
-        (resolve) => {
-          if (resolve[2]) {
-            props.openStatement({
-              status: "success",
-              text: resolve[2],
-            });
-            props.choosePage(false);
-          } else {
-            setDeckToLern(resolve[0]);
-            setDeckNotToLern(resolve[1]);
-            setRepeatCounter(0);
-            setToRepeat([]);
-          }
-        },
-        (error) => {
-          props.openStatement({
-            status: "error",
-            text: error,
-          });
-          props.choosePage(false);
-        }
-      );
-    }
+      },
+      (error) => {
+        props.openStatement({
+          status: "error",
+          text: error,
+        });
+        props.choosePage(false);
+      }
+    );
   }, []);
 
   function saveProgress(newToRepeat) {
@@ -122,11 +99,20 @@ export default function Lern(props) {
       return a.id - b.id;
     });
 
+    deckLenght;
+
+    const newlastRepeatData = {
+      newCards: deckLenght.newCards,
+      allCards: deckLenght.allCards,
+      date: props.testToday,
+    };
+
     const progressData = {
       lastRepeat: props.testToday,
+      lastRepeatData: newlastRepeatData,
       cards: progressDataCards,
     };
- 
+
     if (props.guest) {
       props.saveTestProgressData(progressData);
     } else {

@@ -8,7 +8,8 @@ import {
 } from "firebase/firestore";
 
 export default async function saveProgressDataFromDb(id, newProgressData) {
-  const progressDataRef = collection(db, "users", id, "decks");
+  console.log(id, newProgressData);
+
   const progressDataSettingsRef = collection(
     db,
     "users",
@@ -17,6 +18,7 @@ export default async function saveProgressDataFromDb(id, newProgressData) {
     id,
     "settings"
   );
+
   const progressDataCardsRef = collection(
     db,
     "users",
@@ -25,10 +27,6 @@ export default async function saveProgressDataFromDb(id, newProgressData) {
     id,
     "cards"
   );
-
-  await setDoc(doc(progressDataRef, id), {
-    lastRepeat: newProgressData.lastRepeat,
-  });
 
   await setDoc(
     doc(progressDataSettingsRef, "lastRepeat"),

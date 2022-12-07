@@ -21,17 +21,25 @@ export default function Lern(props) {
   const [repeatCounter, setRepeatCounter] = useState(0);
   const [toRepeat, setToRepeat] = useState("");
   const [deckLenght, setDeckLenght] = useState(false);
+  const [nextRepeatButtons, setNextRepeatButtons] = useState(false);
 
   useEffect(() => {
+    startLerning();
+  }, []);
+
+  function startLerning(extraLerning) {
     prepareDeckToLern(
       props.guest,
       props.user,
       props.testToday,
       props.testDeck,
-      props.testProgressData
+      props.testProgressData,
+      extraLerning
     ).then(
       (resolve) => {
-        if (resolve[2]) {
+        if (resolve[4]) {
+          setNextRepeatButtons(resolve[4]);
+        } else if (resolve[2]) {
           props.openStatement({
             status: "success",
             text: resolve[2],
@@ -53,11 +61,9 @@ export default function Lern(props) {
         props.choosePage(false);
       }
     );
-  }, []);
+  }
 
   function saveProgress(newToRepeat) {
-    //const today = new Date().setHours(0, 0, 0, 0);
-
     const progressDataCardsRepeated = deckToLern.map((item) => {
       let cardData = { id: item.id };
       let newStatus = 0;
@@ -147,6 +153,13 @@ export default function Lern(props) {
         : deckToLern;
     return (
       <LerningRound deck={deck} deckLength={deck.length} endRound={endRound} />
+    );
+  } else if (nextRepeatButtons) {
+    return (
+      <LerningNextRepeatButtons
+        nextRepeatButtons={nextRepeatButtons}
+        startLerning={startLerning}
+      />
     );
   } else {
     return "loading...";
@@ -241,6 +254,49 @@ function LerningButtons(props) {
             >
               wiedziałem
             </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LerningNextRepeatButtons(props) {
+  return (
+    <div className="lerning next page">
+      <div className="cont">
+        <h2>Na dziś niema już żadnych kart!</h2>
+        <p>Możesz jednak skożystać z dodatkowej powtórki:</p>
+        {props.nextRepeatButtons.crossLimits && (
+          <>
+            <button
+              className="blue"
+              onClick={() => {
+                props.startLerning("restart-limits");
+              }}
+            >
+              Wyzeruj limity ({props.nextRepeatButtons.crossLimits})
+            </button>
+            <p>
+              Powtórz karty które nie zmieściły się ze zględu na dzienne limity
+            </p>
+          </>
+        )}
+        {props.nextRepeatButtons.tomorrow && (
+          <>
+            <button
+              className="blue"
+              onClick={() => {
+                props.startLerning("tomorrow");
+              }}
+            >
+              Jutrzejsze karty ({props.nextRepeatButtons.tomorrow})
+            </button>
+            <p>
+              Nie jest to do końca dobre ze względu na przyswajanie wiedzy, ale
+              warto skorzystać z tej opcji jeśli masz dziś więcej czasu niż
+              jutro.
+            </p>
           </>
         )}
       </div>

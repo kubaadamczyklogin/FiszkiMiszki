@@ -17,18 +17,32 @@ export async function prepareDeckToLern(
   user,
   testToday,
   testDeck,
-  testProgressData
+  testProgressData,
+  extraLerning
 ) {
-  const cardsLimit = 50;
-  const newCardsLimit = 10;
+  const cardsLimit = 3;
+  const newCardsLimit = 1;
   let deck,
     progressData,
     deckToLern = [],
     deckNotToLearn = [],
     deckLength = [],
-    exception = false;
+    repeatButtons = false,
+    exception = false,
+    cardsQuantity = 0,
+    newCardsQuantity = 0,
+    extraRepeat = {
+      newCards: 0,
+      toRepeatCards: 0,
+      tommorowCards: 0,
+    };
 
   let today = testToday;
+  today = new Date().setHours(0, 0, 0, 0);
+
+  if (extraLerning === "tomorrow") {
+    today = today + day;
+  }
 
   if (guest) {
     deck = testDeck;
@@ -40,18 +54,23 @@ export async function prepareDeckToLern(
     deck = await readDeckFromDb(user.uid);
     progressData = await readProgressDataFromDb(user.uid);
 
-    console.log(progressData.lastRepeatData);
+    console.log(deck);
+    console.log(progressData);
+
+    if (
+      progressData.lastRepeatData.date >= today &&
+      extraLerning !== "restart-limits"
+    ) {
+      cardsQuantity = progressData.lastRepeatData.allCards;
+      newCardsQuantity = progressData.lastRepeatData.newCards;
+    }
   }
 
   if (deck.length === 0) {
     exception =
       'Talia jest pusta. Dodaj karty wybierając w menu "edytuj talie"';
 
-    return [deckToLern, deckNotToLearn, exception];
-  } else if (progressData.lastRepeat >= today) {
-    exception = "Dziś już się uczyłeś, zajrzyj tu jutro.";
-
-    return [deckToLern, deckNotToLearn, exception];
+    return [deckToLern, deckNotToLearn, exception];   
   } else {
     // synchronizacja danych z talią
     deck = deck.map((deckItem) => {
@@ -71,10 +90,6 @@ export async function prepareDeckToLern(
       return a.status - b.status;
     });
 
-    // segregacja talii
-    let cardsQuantity = 0;
-    let newCardsQuantity = 0;
-
     deck.forEach((card) => {
       if (card.repeatDate <= today) {
         if (card.status < 10) {
@@ -82,6 +97,7 @@ export async function prepareDeckToLern(
             deckToLern.push(card);
             cardsQuantity++;
           } else {
+            extraRepeat.toRepeatCards++;
             deckNotToLearn.push(card);
           }
         } else if (card.status === 10) {
@@ -90,6 +106,7 @@ export async function prepareDeckToLern(
             cardsQuantity++;
             newCardsQuantity++;
           } else {
+            extraRepeat.newCards++;
             deckNotToLearn.push(card);
           }
         } else {
@@ -97,6 +114,9 @@ export async function prepareDeckToLern(
         }
       } else {
         deckNotToLearn.push(card);
+        if (card.repeatDate <= today + day) {
+          extraRepeat.tommorowCards++;
+        }
       }
     });
 
@@ -123,7 +143,30 @@ export async function prepareDeckToLern(
 
   if (deckToLern.length === 0) {
     exception = "Na dziś niemasz żadnych słów w tej talii.";
+
+    let temporaryCardsCounter = 0;
+
+    if (extraRepeat.newCards > 0 || extraRepeat.toRepeatCards > 0) {
+      if (!repeatButtons) repeatButtons = {};
+
+      temporaryCardsCounter =
+        (extraRepeat.newCards > newCardsLimit
+          ? newCardsLimit
+          : extraRepeat.newCards) + extraRepeat.toRepeatCards;
+      temporaryCardsCounter =
+        temporaryCardsCounter > cardsLimit ? cardsLimit : temporaryCardsCounter;
+      repeatButtons.crossLimits = temporaryCardsCounter;
+    }
+
+    if (extraRepeat.tommorowCards) {
+      if (!repeatButtons) repeatButtons = {};
+
+      temporaryCardsCounter = temporaryCardsCounter + extraRepeat.tommorowCards;
+      temporaryCardsCounter =
+        temporaryCardsCounter > cardsLimit ? cardsLimit : temporaryCardsCounter;
+      repeatButtons.tomorrow = temporaryCardsCounter;
+    }
   }
 
-  return [deckToLern, deckNotToLearn, exception, deckLength];
+  return [deckToLern, deckNotToLearn, exception, deckLength, repeatButtons];
 }

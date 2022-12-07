@@ -1,10 +1,13 @@
 export default function Home(props) {
   const errors = [
-    //"Komunikaty powtórek - do poprawy",
+    "Na komputerze klika się kilka razy przycisk w nauce",
+    "Miałem 11 nowych kart i wszystkie były w nauce a powinno być ograniczenie do 10",
+    "Utworzyłem talie z cyferek 1-11 ale zapisały się niektóre karty kilka razy",
   ];
 
   const toDo = [
     "Pełniejsze komunikaty podczas uczenia się",
+    "Wymowa audio",
     "Możliwość zapisu edycji podczas przełączania na inną podstronę",
     "Zapis postępu mimo braku ukończenia sesji",
     "Walidacja podczas edycji talii",
@@ -15,7 +18,6 @@ export default function Home(props) {
     'W "Ucz się" pełniejsze informacje o postępie, lepsze komunikaty',
     "Responsywność - obecnie zrobione tylko na tel w pionie",
     "Możliwość ustawiania limitów, miksów talii itp",
-    "Wymowa audio",
     'W "Edytuj" i "Dodaj" automatyczne propozycje audio i tłumaczenia na polski (api)',
     "Możliwość dodawania obrazków",
     "Losowe powtarzanie jednej fiszki której już dawno się nauczyliśmy",
@@ -74,12 +76,12 @@ export default function Home(props) {
           </li>
         </ol>
 
-        {/* <h2>Błędy do naprawy</h2>
+        <h2>Błędy do naprawy</h2>
         <ol>
           {errors.map((item, index) => {
             return <li key={index}>{item}</li>;
           })}
-        </ol> */}
+        </ol>
         <hr />
         <h2>Planowane zmiany:</h2>
         <ol>

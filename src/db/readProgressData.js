@@ -40,11 +40,12 @@ export default async function readProgressDataFromDb(id) {
     "cards"
   );
 
-  const progressDataFromDb = await getDoc(progressDataRef);
+  //wygląda na przestarzałe
+  // const progressDataFromDb = await getDoc(progressDataRef);
 
-  if (progressDataFromDb.exists()) {
-    resultObject.lastRepeat = progressDataFromDb.data().lastRepeat;
-  }
+  // if (progressDataFromDb.exists()) {
+  //   resultObject.lastRepeat = progressDataFromDb.data().lastRepeat;
+  // }
 
   const lastRepeatDataFromDb = await getDoc(progressDatalastRepeatRef);
 

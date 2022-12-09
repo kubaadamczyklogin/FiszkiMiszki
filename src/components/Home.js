@@ -11,12 +11,11 @@ export default function Home(props) {
     "Wiele talii (na razie jest tylko jedna testowa)",
     "Strona spisu talii z danymi o postępie",
     "Ładna strona główna",
-    'W "Edytuj" i "Dodaj" walidacja',
     'W "Ucz się" pełniejsze informacje o postępie, lepsze komunikaty',
-    "Responsywność - obecnie zrobione tylko na tel w pionie",
+    "Responsywność - obecnie zrobione tylko na mobile w pionie",
     "Możliwość ustawiania limitów, miksów talii itp",
     "Wymowa audio",
-    'W "Edytuj" i "Dodaj" automatyczne propozycje audio i tłumaczenia na polski (api)',
+    'W "Edytuj talie" automatyczne propozycje audio i tłumaczenia na polski (api)',
     "Możliwość dodawania obrazków",
     "Losowe powtarzanie jednej fiszki której już dawno się nauczyliśmy",
     "Breadcrumbs",
@@ -32,8 +31,7 @@ export default function Home(props) {
         <p>
           Obecnie pracuję nad:
           <br />
-          Poprawieniem ograniczeń nauki jednego dnia - by można było kilka razy
-          w ciągu dnia skożystać z aplikacji.
+          Potężny refactor. Dostęp do wielu talii.
         </p>
 
         <hr />

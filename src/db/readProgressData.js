@@ -3,7 +3,6 @@ import { doc, collection, getDoc, getDocs } from "firebase/firestore";
 
 export default async function readProgressDataFromDb(id) {
   let resultObject = {
-    lastRepeat: 1,
     lastRepeatData: {
       newCards: 0,
       allCards: 0,
@@ -12,14 +11,6 @@ export default async function readProgressDataFromDb(id) {
     cards: [],
   };
   let cards = [];
-
-  const progressDataRef = doc(
-    db,
-    "users",
-    id,
-    "decks",
-    id // nazwa talii
-  );
 
   const progressDatalastRepeatRef = doc(
     db,
@@ -39,12 +30,6 @@ export default async function readProgressDataFromDb(id) {
     id,
     "cards"
   );
-
-  const progressDataFromDb = await getDoc(progressDataRef);
-
-  if (progressDataFromDb.exists()) {
-    resultObject.lastRepeat = progressDataFromDb.data().lastRepeat;
-  }
 
   const lastRepeatDataFromDb = await getDoc(progressDatalastRepeatRef);
 

@@ -20,8 +20,8 @@ export async function prepareDeckToLern(
   testProgressData,
   extraLerning
 ) {
-  const cardsLimit = 3;
-  const newCardsLimit = 1;
+  const cardsLimit = 30;
+  const newCardsLimit = 7;
   let deck,
     progressData,
     deckToLern = [],
@@ -37,40 +37,43 @@ export async function prepareDeckToLern(
       tommorowCards: 0,
     };
 
-  let today = testToday;
-  today = new Date().setHours(0, 0, 0, 0);
+  let today = new Date().setHours(0, 0, 0, 0);
 
   if (extraLerning === "tomorrow") {
     today = today + day;
   }
 
   if (guest) {
+    today = testToday;
     deck = testDeck;
-
     progressData = testProgressData
       ? testProgressData
-      : { lastRepeat: today - day, cards: [] };
+      : {
+          lastRepeatData: {
+            allCards: 0,
+            date: today - day,
+            newCards: 0,
+          },
+          cards: [],
+        };
   } else {
     deck = await readDeckFromDb(user.uid);
     progressData = await readProgressDataFromDb(user.uid);
+  }
 
-    console.log(deck);
-    console.log(progressData);
-
-    if (
-      progressData.lastRepeatData.date >= today &&
-      extraLerning !== "restart-limits"
-    ) {
-      cardsQuantity = progressData.lastRepeatData.allCards;
-      newCardsQuantity = progressData.lastRepeatData.newCards;
-    }
+  if (
+    progressData.lastRepeatData.date >= today &&
+    extraLerning !== "restart-limits"
+  ) {
+    cardsQuantity = progressData.lastRepeatData.allCards;
+    newCardsQuantity = progressData.lastRepeatData.newCards;
   }
 
   if (deck.length === 0) {
     exception =
       'Talia jest pusta. Dodaj karty wybierając w menu "edytuj talie"';
 
-    return [deckToLern, deckNotToLearn, exception];   
+    return [deckToLern, deckNotToLearn, exception];
   } else {
     // synchronizacja danych z talią
     deck = deck.map((deckItem) => {

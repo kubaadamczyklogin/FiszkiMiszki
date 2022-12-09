@@ -21,7 +21,7 @@ export async function prepareDeckToLern(
   extraLerning
 ) {
   const cardsLimit = 30;
-  const newCardsLimit = 7;
+  const newCardsLimit = 10;
   let deck,
     progressData,
     deckToLern = [],

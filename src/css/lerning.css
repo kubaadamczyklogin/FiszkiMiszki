@@ -60,3 +60,28 @@
   flex-grow: 1;
   width: 50%;
 }
+.lerning.next button {
+  display: inline-block;
+  line-height: 50px;
+  border-radius: 25px;
+  border: none;
+  padding: 0 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 17px;
+  white-space: nowrap;
+}
+.lerning.next button.blue {
+  background: #519ce4;
+  color: #ffffff;
+}
+.lerning.next button.green {
+  background: #9ce451;
+  color: #1f5d5e;
+}
+.lerning.next button.red {
+  background: #ffffff;
+  color: #f00000;
+}

@@ -114,7 +114,6 @@ export default function Lern(props) {
     };
 
     const progressData = {
-      lastRepeat: props.testToday,
       lastRepeatData: newlastRepeatData,
       cards: progressDataCards,
     };

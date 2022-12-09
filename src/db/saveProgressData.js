@@ -8,8 +8,7 @@ import {
 } from "firebase/firestore";
 
 export default async function saveProgressDataFromDb(id, newProgressData) {
-  console.log(id, newProgressData);
-
+  
   const progressDataSettingsRef = collection(
     db,
     "users",
